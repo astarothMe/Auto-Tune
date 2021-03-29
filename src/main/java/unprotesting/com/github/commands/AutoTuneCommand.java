@@ -25,14 +25,7 @@ public class AutoTuneCommand implements CommandExecutor {
         if (args.length == 0) {
             Player player = (Player) sender;
             if (player.hasPermission("at.help") || player.isOp()) {
-                player.sendMessage(ChatColor.YELLOW + "\"/at\" command usage:");
-                player.sendMessage(ChatColor.YELLOW + "- /at login | Login to trading plaform");
-                player.sendMessage(ChatColor.YELLOW + "- /at Register | Register to trading plaform");
-                player.sendMessage(
-                        ChatColor.YELLOW + "- /at Increase <Item-Name> <Value | %Value> | Increase Item Price");
-                player.sendMessage(
-                        ChatColor.YELLOW + "- /at Decrease <Item-Name> <Value | %Value> | Decrease Item Price");
-                return true;
+                return sendHelp(player);
             } else {
                 player.sendMessage(ChatColor.RED
                         + "This command is for admins only! To configure the plugin please use the config!");
@@ -66,14 +59,7 @@ public class AutoTuneCommand implements CommandExecutor {
 
                 else {
                     if (player.hasPermission("at.help") || player.isOp()) {
-                        player.sendMessage(ChatColor.YELLOW + "\"/at\" command usage:");
-                        player.sendMessage(ChatColor.YELLOW + "- /at login | Login to trading plaform");
-                        player.sendMessage(ChatColor.YELLOW + "- /at Register | Register to trading plaform");
-                        player.sendMessage(
-                                ChatColor.YELLOW + "- /at Increase <Item-Name> <Value | %Value> | Increase Item Price");
-                        player.sendMessage(
-                                ChatColor.YELLOW + "- /at Decrease <Item-Name> <Value | %Value> | Decrease Item Price");
-                        return true;
+                        return sendHelp(player);
                     } else if (!(player.hasPermission("at.help")) && !(player.isOp())) {
                         TextHandler.noPermssion(player);
                         return true;
@@ -87,10 +73,10 @@ public class AutoTuneCommand implements CommandExecutor {
                     if (!(value == 0 || value == 0.0 || value == 0f || value > 99999999 || args[1] == null
                             || args[2] == null)) {
                         if (args[1].contains("%")) {
-                            args[1].replace("%", "");
-                            Double newPrice = InflationEventHandler.increaseItemPrice(args[1].toUpperCase(), value,
+                            String item = args[1].replace("%", "").toUpperCase();
+                            Double newPrice = InflationEventHandler.increaseItemPrice(item, value,
                                     true);
-                            player.sendMessage(ChatColor.YELLOW + "Increased " + args[1].toUpperCase() + " price to "
+                            player.sendMessage(ChatColor.YELLOW + "Increased " + item + " price to "
                                     + ChatColor.GREEN + Config.getCurrencySymbol() + newPrice);
                         } else {
                             Double newPrice = InflationEventHandler.increaseItemPrice(args[1].toUpperCase(), value,
@@ -111,10 +97,10 @@ public class AutoTuneCommand implements CommandExecutor {
                     if (!(value == 0 || value == 0.0 || value == 0f || value > 99999999 || args[1] == null
                             || args[2] == null)) {
                         if (args[1].contains("%")) {
-                            args[1].replace("%", "");
-                            Double newPrice = InflationEventHandler.decreaseItemPrice(args[1].toUpperCase(), value,
+                            String item = args[1].replace("%", "").toUpperCase();
+                            Double newPrice = InflationEventHandler.decreaseItemPrice(item, value,
                                     true);
-                            player.sendMessage(ChatColor.YELLOW + "Decreased " + args[1].toUpperCase() + " price to "
+                            player.sendMessage(ChatColor.YELLOW + "Decreased " + item + " price to "
                                     + ChatColor.GREEN + Config.getCurrencySymbol() + newPrice);
                         } else {
                             Double newPrice = InflationEventHandler.decreaseItemPrice(args[1].toUpperCase(), value,
@@ -191,6 +177,17 @@ public class AutoTuneCommand implements CommandExecutor {
             return false;
         }
         return false;
+    }
+
+    private boolean sendHelp(Player player) {
+        player.sendMessage(ChatColor.YELLOW + "\"/at\" command usage:");
+        player.sendMessage(ChatColor.YELLOW + "- /at login | Login to trading plaform");
+        player.sendMessage(ChatColor.YELLOW + "- /at Register | Register to trading plaform");
+        player.sendMessage(
+                ChatColor.YELLOW + "- /at Increase <Item-Name> <Value | %Value> | Increase Item Price");
+        player.sendMessage(
+                ChatColor.YELLOW + "- /at Decrease <Item-Name> <Value | %Value> | Decrease Item Price");
+        return true;
     }
 }
 

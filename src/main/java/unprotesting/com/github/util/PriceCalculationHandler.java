@@ -1,6 +1,7 @@
 package unprotesting.com.github.util;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import unprotesting.com.github.commands.AutoTuneGUIShopUserCommand;
@@ -43,13 +44,7 @@ public class PriceCalculationHandler implements Runnable {
             for (String str : Main.map.keySet()) {
                 ConcurrentHashMap<Integer, Double[]> buySellMap = Main.map.get(str);
                 Double price = AutoTuneGUIShopUserCommand.getItemPrice(str, false);
-                Double[] arr = loadAverageBuyAndSellValue(buySellMap, price, str);
-                JSONObject priceData = new JSONObject();
-                priceData.put("itemName", str);
-                priceData.put("price",  price);
-                priceData.put("averageBuy", arr[0]);
-                priceData.put("averageSell", arr[1]);
-                itemData.add(priceData);
+                loadAverageBuyAndSellValue(itemData, str, buySellMap, price);
 
             }
             obj.put("itemData", itemData);
@@ -70,6 +65,16 @@ public class PriceCalculationHandler implements Runnable {
                 e.printStackTrace();
               }
         }
+    }
+
+    private static void loadAverageBuyAndSellValue(@NotNull JSONArray itemData, String str, ConcurrentHashMap<Integer, Double[]> buySellMap, Double price) {
+        Double[] arr = loadAverageBuyAndSellValue(buySellMap, price, str);
+        JSONObject priceData = new JSONObject();
+        priceData.put("itemName", str);
+        priceData.put("price",  price);
+        priceData.put("averageBuy", arr[0]);
+        priceData.put("averageSell", arr[1]);
+        itemData.add(priceData);
     }
 
     public static void loadEnchantmentPricesAndCalculate() throws IOException {
@@ -103,13 +108,7 @@ public class PriceCalculationHandler implements Runnable {
                     price = Main.enchMap.get(str).price;
                     buySellMap.put(0, new Double[]{price, 0.0, 0.0});
                 }
-                Double[] arr = loadAverageBuyAndSellValue(buySellMap, price, str);
-                JSONObject priceData = new JSONObject();
-                priceData.put("itemName", str);
-                priceData.put("price",  price);
-                priceData.put("averageBuy", arr[0]);
-                priceData.put("averageSell", arr[1]);
-                itemData.add(priceData);
+                loadAverageBuyAndSellValue(itemData, str, buySellMap, price);
 
             }
             obj.put("itemData", itemData);

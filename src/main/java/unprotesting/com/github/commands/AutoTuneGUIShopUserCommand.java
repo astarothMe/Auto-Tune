@@ -181,13 +181,7 @@ public class AutoTuneGUIShopUserCommand implements CommandExecutor {
 				int maxStackSize = iStack.getMaxStackSize();
 				int maxBuys = sec.itemMaxBuySell.get(itemName)[0];
 				if (maxStackSize < amounts[i] || maxBuys < amounts[i]){
-					Material mat = Material.RED_STAINED_GLASS_PANE;
-					ItemStack itemPane = new ItemStack(mat);
-					ItemMeta itemPaneMeta = itemPane.getItemMeta();
-					Objects.requireNonNull(itemPaneMeta).setDisplayName(ChatColor.MAGIC + "_");
-					itemPane.setItemMeta(itemPaneMeta);
-					GuiItem gItemPane = new GuiItem(itemPane, event -> event.setCancelled(true));
-					front.addItem(gItemPane);
+					tradingPane(front);
 					continue;
 				}
 				gItem = new GuiItem(iStack, event -> {
@@ -250,14 +244,7 @@ public class AutoTuneGUIShopUserCommand implements CommandExecutor {
 				int maxStackSize = iStack.getMaxStackSize();
 				int maxSells = sec.itemMaxBuySell.get(itemName)[1];
 				if (maxStackSize < amounts[i - 7] || maxSells < amounts[i - 7]){
-					Material mat = Material.RED_STAINED_GLASS_PANE;
-					ItemStack itemPane = new ItemStack(mat);
-					ItemMeta itemPaneMeta = itemPane.getItemMeta();
-					Objects.requireNonNull(itemPaneMeta).setDisplayName(ChatColor.MAGIC + "_");
-					itemPane.setItemMeta(itemPaneMeta);
-					GuiItem gItemPane = new GuiItem(itemPane, event -> event.setCancelled(true));
-					front.addItem(gItemPane);
-					continue;
+					tradingPane(front);
 				}
 				gItem = new GuiItem(iStack, event -> {
 					Player player = (Player) event.getWhoClicked();
@@ -294,6 +281,16 @@ public class AutoTuneGUIShopUserCommand implements CommandExecutor {
 			front.addItem(gItem);
 		}
 		return front;
+	}
+
+	private static void tradingPane(OutlinePane front) {
+		Material mat = Material.RED_STAINED_GLASS_PANE;
+		ItemStack itemPane = new ItemStack(mat);
+		ItemMeta itemPaneMeta = itemPane.getItemMeta();
+		Objects.requireNonNull(itemPaneMeta).setDisplayName(ChatColor.MAGIC + "_");
+		itemPane.setItemMeta(itemPaneMeta);
+		GuiItem gItemPane = new GuiItem(itemPane, event -> event.setCancelled(true));
+		front.addItem(gItemPane);
 	}
 
 	public static void removeItems(Player player, int finalI, String itemName, Section sec, int difference) {

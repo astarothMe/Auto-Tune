@@ -88,7 +88,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
     public void loadGeneralSettings(Player p, CommandSender sender) {
         OutlinePane generalConfigPane = new OutlinePane(0, 0, 9, 2);
         Gui generalConfigGUI = new Gui(2, "General-Configuration Panel");
-        createGeneralConfigMenuGuiItems(generalConfigGUI, generalConfigPane, p, sender);
+        createGeneralConfigMenuGuiItems(generalConfigPane, p, sender);
         generalConfigGUI.addPane(generalConfigPane);
         generalConfigGUI.update();
         generalConfigGUI.show((HumanEntity) sender);
@@ -97,7 +97,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
     public void loadBasicAdvancedPricingModelSettings(Player p, CommandSender sender) {
         OutlinePane BAConfigPane = new OutlinePane(0, 0, 9, 1);
         Gui BAConfigGUI = new Gui(1, "Basic/Advanced Pricing-Model-Configuration Panel");
-        createBasicAdvancedPricingModelConfigMenuGuiItems(BAConfigGUI, BAConfigPane, p, sender);
+        createBasicAdvancedPricingModelConfigMenuGuiItems(BAConfigPane, p, sender);
         BAConfigGUI.addPane(BAConfigPane);
         BAConfigGUI.update();
         BAConfigGUI.show((HumanEntity) sender);
@@ -106,7 +106,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
     public void loadExponentialPricingModelSettings(Player p, CommandSender sender){
         OutlinePane EPConfigPane = new OutlinePane(0, 0, 9, 1);
         Gui EPConfigGUI = new Gui(1, "Exponential Pricing-Model-Configuration Panel");
-        createExponentialPricingModelMenuGuiItems(EPConfigGUI, EPConfigPane, p, sender);
+        createExponentialPricingModelMenuGuiItems(EPConfigPane, p, sender);
         EPConfigGUI.addPane(EPConfigPane);
         EPConfigGUI.update();
         EPConfigGUI.show((HumanEntity) sender);
@@ -115,7 +115,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
     public void loadOtherEcononomySettings(Player p, CommandSender sender){
         OutlinePane OEConfigPane = new OutlinePane(0, 0, 9, 1);
         Gui OEConfigGUI = new Gui(1, "Other Econonomy Configuration Panel");
-        createOtherEcononomyMenuGuiItems(OEConfigGUI, OEConfigPane, p, sender);
+        createOtherEcononomyMenuGuiItems(OEConfigPane, p, sender);
         OEConfigGUI.addPane(OEConfigPane);
         OEConfigGUI.update();
         OEConfigGUI.show((HumanEntity) sender);
@@ -124,7 +124,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
     public void loadOtherSettings(Player p, CommandSender sender){
         OutlinePane OConfigPane = new OutlinePane(0, 0, 9, 1);
         Gui OConfigGUI = new Gui(1, "Other-Configuration Panel");
-        createOtherMenuGuiItems(OConfigGUI, OConfigPane, p, sender);
+        createOtherMenuGuiItems(OConfigPane, p, sender);
         OConfigGUI.addPane(OConfigPane);
         OConfigGUI.update();
         OConfigGUI.show((HumanEntity) sender);
@@ -175,7 +175,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
         return is;
     }
 
-    public void createGeneralConfigMenuGuiItems(Gui configGui, OutlinePane generalConfigPane, Player player, CommandSender sender) {
+    public void createGeneralConfigMenuGuiItems(OutlinePane generalConfigPane, Player player, CommandSender sender) {
         generalConfigPane.addItem(new GuiItem(createItemStackWithMeta("Web Server", String.valueOf(Config.isWebServer())), event -> {
             Player p = (Player) event.getWhoClicked();
             checkForMessage(p, "Web Server", "web-server-enabled", "boolean", sender);}));
@@ -210,7 +210,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
                     resetPlayerToSettings(player, sender);}));
     }
 
-    public void createBasicAdvancedPricingModelConfigMenuGuiItems(Gui configGui, OutlinePane BAConfigPane, Player player, CommandSender sender) {
+    public void createBasicAdvancedPricingModelConfigMenuGuiItems(OutlinePane BAConfigPane, Player player, CommandSender sender) {
         BAConfigPane.addItem(new GuiItem(createItemStackWithMeta("Volatility Algorithm", String.valueOf(Config.getBasicVolatilityAlgorithim())), event -> {
             Player p = (Player) event.getWhoClicked();
             checkForMessage(p, "Volatility Algorithm", "Volatility-Algorithim", "string", sender);}));
@@ -231,7 +231,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
                     checkForMessage(p, "Variable Min Volatility", "Variable-Min-Volatility", "double", sender);}));
     }
 
-    public void createExponentialPricingModelMenuGuiItems(Gui configGui, OutlinePane BAConfigPane, Player player, CommandSender sender) {
+    public void createExponentialPricingModelMenuGuiItems(OutlinePane BAConfigPane, Player player, CommandSender sender) {
         BAConfigPane.addItem(new GuiItem(createItemStackWithMeta("Data Selection M", Config.getDataSelectionM()), event -> {
             Player p = (Player) event.getWhoClicked();
             checkForMessage(p, "Data Selection M", "data-selection-m", "double", sender);}));
@@ -243,7 +243,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
                     checkForMessage(p, "Data Selection C", "data-selection-c", "double", sender);}));
     }
 
-    public void createOtherEcononomyMenuGuiItems(Gui configGui, OutlinePane BAConfigPane, Player player, CommandSender sender) {
+    public void createOtherEcononomyMenuGuiItems(OutlinePane BAConfigPane, Player player, CommandSender sender) {
         BAConfigPane.addItem(new GuiItem(createItemStackWithMeta("Currency Symbol", String.valueOf(Config.getCurrencySymbol())), event -> {
             Player p = (Player) event.getWhoClicked();
             checkForMessage(p, "Currency Symbol", "currency-symbol", "string", sender);}));
@@ -261,7 +261,7 @@ public class AutoTuneAutoTuneConfigCommand implements CommandExecutor {
                     checkForMessage(p, "Sell Price Variation Update Period", "sell-price-variation-update-period", "integer", sender);}));    
     }
 
-    public void createOtherMenuGuiItems(Gui configGui, OutlinePane BAConfigPane, Player player, CommandSender sender) {
+    public void createOtherMenuGuiItems(OutlinePane BAConfigPane, Player player, CommandSender sender) {
         BAConfigPane.addItem(new GuiItem(createItemStackWithMeta("Debug Enabled", String.valueOf(Config.isDebugEnabled())), event -> {
             Player p = (Player) event.getWhoClicked();
             checkForMessage(p, "Debug Enabled", "debug-enabled", "boolean", sender);}));
